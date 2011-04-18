@@ -25,7 +25,7 @@ sub dequeue {
     my $job_limit = $opts->{job_limit} || 100;
 
     my $rows = $self->dbh->selectall_arrayref(
-        sprintf(q{SELECT id, arg FROM %s WHERE status = 'wait' ORDER BY id ASC LIMIT ? OFFSET 0}, $table),
+        sprintf(q{SELECT id, arg FROM %s WHERE status = 'wait' ORDER BY id ASC LIMIT ? OFFSET 0 FOR UPDATE}, $table),
         +{ Slice => +{}},
         $job_limit
     );
